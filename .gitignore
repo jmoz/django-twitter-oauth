@@ -1,4 +1,4 @@
-# Can ignore specific files
+# Individual files
 .DS_Store
 
 # Python compiled files 

@@ -23,6 +23,8 @@ from twitter_auth.util.utils import *
 
 
 Then somewhere:
+    
+
     #This gets the authenticated twitter.Api object
     api = get_twitter_api(request)
     users = api.GetFriends()

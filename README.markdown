@@ -11,7 +11,7 @@ This will still be worked on by me as I'm using this Django app for a website I 
 
 ## Installation
 Add the 'twitter_app' directory somewhere on your 'PYTHONPATH', put it into 'INSTALLED_APPS' in your settings file.
-Fill in your CONSUMER_KEY and CONSUMER_SECRET either in your settings file.
+Fill in your CONSUMER_KEY and CONSUMER_SECRET in your settings file.
 
 - Add this line to your Django project's urlconf: 
     url(r'^twitter/', include('twitter_app.urls')),

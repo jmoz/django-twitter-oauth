@@ -22,7 +22,7 @@ You're good to go!
 from twitter_auth.util.utils import *
 
 
-Then somewhere:
+Then with an authenticated user in the request object:
     
 
     #This gets the authenticated twitter.Api object

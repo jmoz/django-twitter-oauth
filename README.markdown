@@ -14,8 +14,12 @@ Fill in your CONSUMER_KEY and CONSUMER_SECRET in your settings file.
 
 - Add this line to your Django project's urlconf: 
     url(r'^twitter/', include('twitter_app.urls')),
+By default, things should just work (as long as you specify the proper template location and what not).
+To use this in a production-type application, you are going to want to specify two settings in your settings.py file:
+TWITTER_AUTH_HOME - the named url pattern of where your home view is (useful when the user logs out, for instance)
+TWITTER_AUTH_AUTHENTICATED - the named url pattern of where you are sent when you are redirected back after being authenticated by twitter or if you try to access a page once you are already logged in.
 
-You're good to go!
+Now you should be good to go!
 
 ## API Usage
 from twitter_auth.util.utils import *

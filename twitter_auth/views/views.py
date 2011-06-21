@@ -8,16 +8,21 @@ from django.core.urlresolvers import reverse
 
 from twitter_auth.util.utils import *
 
+from django.conf import settings
+
+TWITTER_AUTH_HOME = getattr(settings, 'TWITTER_AUTH_HOME', 'twitter_oauth_main')
+TWITTER_AUTH_AUTHENTICATED = getattr(settings, 'TWITTER_AUTH_AUTHENTICATED', 'twitter_oauth_friend_list')
+
 def main(request):
     if request.session.has_key('access_token'):
-        return HttpResponseRedirect(reverse('twitter_oauth_friend_list'))
+        return HttpResponseRedirect(reverse(TWITTER_AUTH_AUTHENTICATED))
     else:
         return render_to_response('twitter_auth/base.html')
 
 def logout_(request):
     logout(request)
     request.session.clear()
-    return HttpResponseRedirect(reverse('twitter_oauth_main'))
+    return HttpResponseRedirect(reverse(TWITTER_AUTH_HOME))
 
 def login_(request):
     "/auth/"
@@ -43,7 +48,7 @@ def return_(request):
         login(request, user)
     else:
         return HttpResponse("Something went wrong! Could not log you in") 
-    response = HttpResponseRedirect(reverse('twitter_oauth_friend_list'))
+    response = HttpResponseRedirect(reverse(TWITTER_AUTH_AUTHENTICATED))
     return response
 
 def friend_list(request):

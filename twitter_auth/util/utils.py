@@ -45,16 +45,16 @@ def request_oauth_resource(url, access_token, parameters=None, signature_method=
 
 
 def fetch_response(oauth_request):
-    #try:
+    try:
         url = oauth_request.to_url()
         CONNECTION.request(oauth_request.http_method, url)
         response = CONNECTION.getresponse()
         s = response.read()
         return s
-    #except urllib.BadStatusLine, e:
-    #    print 'BAD EXCEPTION HAPPENED, BAD STATUS LINE, BAD EVERYTHING'
-    #    print e
-    #return None
+    except httplib.BadStatusLine, e:
+        print 'BAD EXCEPTION HAPPENED, BAD STATUS LINE, BAD EVERYTHING'
+        print e
+    return None
 
 def get_unauthorised_request_token():
     oauth_request = oauth.OAuthRequest.from_consumer_and_token(

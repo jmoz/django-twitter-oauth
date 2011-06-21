@@ -1,5 +1,6 @@
 import oauth
-import urllib
+#import urllib
+import urllib2
 import httplib
 import twitter
 
@@ -47,13 +48,25 @@ def request_oauth_resource(url, access_token, parameters=None, signature_method=
 def fetch_response(oauth_request):
     try:
         url = oauth_request.to_url()
-        CONNECTION.request(oauth_request.http_method, url)
-        response = CONNECTION.getresponse()
+        #print 'method is %s' % oauth_request.http_method
+        #print 'url is %s' % url
+        #CONNECTION.request(oauth_request.http_method, url)
+        #response = CONNECTION.getresponse()
+        response = urllib2.urlopen(url) 
         s = response.read()
+        #print 'response is %s' % s
         return s
-    except httplib.BadStatusLine, e:
-        print 'BAD EXCEPTION HAPPENED, BAD STATUS LINE, BAD EVERYTHING'
-        print e
+    #except Exception as inst:
+    #    print type(inst)     # the exception instance
+    #    print inst.args      # arguments stored in .args
+    #    print inst           # __str__ allows args to printed directly
+    #    raise
+    #taken from http://stackoverflow.com/questions/2146383/https-connection-python/2146907#2146907
+    except IOError, e:
+        if hasattr(e, 'code'): # HTTPError
+            print 'http error code: ', e.code
+        elif hasattr(e, 'reason'): # URLError
+            print "can't connect, reason: ", e.reason
         raise
     return None
 
@@ -75,9 +88,7 @@ def get_authorisation_url(token):
     return oauth_request.to_url()
 
 def get_oauth_url(oauth_request):
-    url = oauth_request.to_url()
-    package = urllib.urlopen(url)
-    return package.read()
+    return fetch_response(oauth_request)
 
 def exchange_request_token_for_access_token(request_token, signature_method=signature_method, params={}):
     oauth_request = oauth.OAuthRequest.from_consumer_and_token(

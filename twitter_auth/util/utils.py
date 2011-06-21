@@ -54,6 +54,7 @@ def fetch_response(oauth_request):
     except httplib.BadStatusLine, e:
         print 'BAD EXCEPTION HAPPENED, BAD STATUS LINE, BAD EVERYTHING'
         print e
+        raise
     return None
 
 def get_unauthorised_request_token():

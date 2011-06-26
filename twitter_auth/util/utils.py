@@ -48,20 +48,9 @@ def request_oauth_resource(url, access_token, parameters=None, signature_method=
 def fetch_response(oauth_request):
     try:
         url = oauth_request.to_url()
-        #print 'method is %s' % oauth_request.http_method
-        #print 'url is %s' % url
-        #CONNECTION.request(oauth_request.http_method, url)
-        #response = CONNECTION.getresponse()
         response = urllib2.urlopen(url) 
         s = response.read()
-        #print 'response is %s' % s
         return s
-    #except Exception as inst:
-    #    print type(inst)     # the exception instance
-    #    print inst.args      # arguments stored in .args
-    #    print inst           # __str__ allows args to printed directly
-    #    raise
-    #taken from http://stackoverflow.com/questions/2146383/https-connection-python/2146907#2146907
     except IOError, e:
         if hasattr(e, 'code'): # HTTPError
             print 'http error code: ', e.code

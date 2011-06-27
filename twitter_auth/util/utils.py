@@ -93,7 +93,7 @@ def get_oauth_token_from_string(string):
 
 def get_twitter_api(request):
     api = None
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         #If the user is logged in, then we can use the authenicated Twitter API.
         token = get_oauth_token_from_string(request.user.get_profile().access_token)
         api = twitter.Api(consumer_key=CONSUMER_KEY, 

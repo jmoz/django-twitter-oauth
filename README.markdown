@@ -21,7 +21,7 @@ TWITTER_AUTH_AUTHENTICATED - the named url pattern of where you are sent when yo
 
 
 I've added a TwitterUserProfile.py file that you can extend in your application to add supplemental user profile fields. If you don't require anything extra, you can uncomment the commented out parts in TwitterUserProfile, uncomment what's in twitter_auth/models/__init_.py and add AUTH_PROFILE_MODULE = "twitter_auth.TwitterUserProfile" to your settings.py.
-If you do, extend TwitterUserProfile in your app's models and be sure to set the AUTH_PROFILE_MODULE in you settings.py to the extended class and copy over the commented out Meta class from TwitterUserProfile and edit the 'app_label' entry to match your app label (if you are not using model.py).
+If you do, extend TwitterUserProfile in your app's models and be sure to set the AUTH_PROFILE_MODULE in you settings.py to the extended class and copy over the commented out Meta class from TwitterUserProfile and edit the 'app_label' entry to match your app label (if you are not using model.py  ).
 
 Now you should be good to go!
 

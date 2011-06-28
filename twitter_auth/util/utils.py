@@ -105,3 +105,16 @@ def get_twitter_api(request):
         api = twitter.Api(consumer_key=CONSUMER_KEY, 
                           consumer_secret=CONSUMER_SECRET)
     return api
+
+
+def get_user_from_twitter(twitter_user_name, request, create_if_not_found = True):
+    """
+    Returns the TwitDegree user associated with the twitter_user_name.
+    If found, check to see when we last updated the user and update
+    if beyond a certain delta.
+    Otherwise, create the user if create_if_not_found = True and return it.
+    """
+    api = get_twitter_api(request)
+    user = api.GetUser(twitter_user_name)
+    if user is None:
+        

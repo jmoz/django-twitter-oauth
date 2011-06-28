@@ -22,9 +22,6 @@ import twitter
 CONSUMER_KEY = getattr(settings, 'CONSUMER_KEY', 'YOUR_KEY')
 CONSUMER_SECRET = getattr(settings, 'CONSUMER_SECRET', 'YOUR_SECRET')
 
-def get_user_from_twitter(twitter_user_name, twitter_api):
-    user = twitter_api.GetUser(twitter_user_name)
-
 class TwitterBackend:
     """TwitterBackend for authentication
     """

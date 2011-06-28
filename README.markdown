@@ -19,6 +19,10 @@ To use this in a production-type application, you are going to want to specify t
 TWITTER_AUTH_HOME - the named url pattern of where your home view is (useful when the user logs out, for instance)
 TWITTER_AUTH_AUTHENTICATED - the named url pattern of where you are sent when you are redirected back after being authenticated by twitter or if you try to access a page once you are already logged in.
 
+
+I've added a TwitterUserProfile.py file that you can extend in your application to add supplemental user profile fields. If you don't require anything extra, you can uncomment the commented out parts in TwitterUserProfile, uncomment what's in twitter_auth/models/__init_.py and add AUTH_PROFILE_MODULE = "twitter_auth.TwitterUserProfile" to your settings.py.
+If you do, extend TwitterUserProfile in your app's models and be sure to set the AUTH_PROFILE_MODULE in you settings.py to the extended class.
+
 Now you should be good to go!
 
 ## API Usage

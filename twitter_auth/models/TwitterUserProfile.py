@@ -9,7 +9,7 @@ class TwitterUserProfile(models.Model):
     location            = models.CharField(max_length=100, blank=True, null=True)
     url                 = models.URLField(blank=True, null=True)
     description         = models.CharField(max_length=160, blank=True, null=True)
-    last_update         = models.DateTimeField(blank=False, auto_now=true)
+    last_update         = models.DateTimeField(blank=False, auto_now=True)
     
     def __str__(self):
         return '%s\'s profile' % self.user

@@ -17,6 +17,8 @@ except ImportError:
 
 
 from django.conf import settings
+from twitter_auth.models.MapTwitterToUser import MapTwitterToUser
+from django.contrib.auth.models import User
 
 
 signature_method = oauth.OAuthSignatureMethod_HMAC_SHA1()
@@ -91,7 +93,7 @@ def get_oauth_token_from_string(string):
     token = oauth.OAuthToken.from_string(string)
     return token
 
-def get_twitter_api(request):
+def get_twitter_api_from_request(request):
     api = None
     if request.user.is_authenticated():
         #If the user is logged in, then we can use the authenicated Twitter API.
@@ -107,14 +109,55 @@ def get_twitter_api(request):
     return api
 
 
-def get_user_from_twitter(twitter_user_name, request, create_if_not_found = True):
+def get_twitter_user_from_twitter(twitter_user_name, api):
     """
-    Returns the TwitDegree user associated with the twitter_user_name.
-    If found, check to see when we last updated the user and update
-    if beyond a certain delta.
-    Otherwise, create the user if create_if_not_found = True and return it.
+    Returns the twitter.User user associated with the twitter_user_name.
     """
-    api = get_twitter_api(request)
-    user = api.GetUser(twitter_user_name)
-    if user is None:
+    twitter_user = api.GetUser(twitter_user_name)
+    if twitter_user is None:
+        return None
+    
+    return twitter_user
         
+        
+def get_or_create_user(twitter_user, create_if_not_found = True):
+    """
+    Given the twitter.User twitter_user, return the System's user if found.
+    If not found and if create_if_not_found is True, create the System
+    user and return it, otherwise return None
+    """
+    mtu = None
+    try:
+        mtu = MapTwitterToUser.objects.get(twitter_id=twitter_user.id)
+    except MapTwitterToUser.DoesNotExist:
+        if not create_if_not_found:
+            return None
+        # If we want to import this user into the system, do it here and return it
+        u = User.objects.create_user(twitter_user.screen_name,
+                                     '%s@example.com' % twitter_user.screen_name,
+                                     User.objects.make_random_password(length=12))
+        u.save()
+        mtu = MapTwitterToUser()
+        mtu.twitter_id = twitter_user.id
+        mtu.user = u
+        mtu.save()
+
+    user = User.objects.get(pk=mtu.user.id)
+    user_profle = user.get_profile()
+    
+    # Let's update the user object with any new info.
+    # This would not be needed if Twitter disallowed username changes.
+    user.first_name = twitter_user.name
+    user.username = twitter_user.screen_name
+    user.email ='%s@example.com' % twitter_user.screen_name
+    user.save()
+
+    # Get the user profile and update it
+    userprofile = user.get_profile()
+    userprofile.url = twitter_user.url
+    userprofile.location = twitter_user.location
+    userprofile.description = twitter_user.description
+    userprofile.profile_image_url = twitter_user.profile_image_url
+    userprofile.save()
+
+    return user

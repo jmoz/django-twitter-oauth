@@ -52,6 +52,6 @@ def return_(request):
     return response
 
 def friend_list(request):
-    api = get_twitter_api(request)
+    api = get_twitter_api_from_request(request)
     users = api.GetFriends()
     return render_to_response('twitter_auth/list.html', {'users': users})

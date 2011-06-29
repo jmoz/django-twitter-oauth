@@ -13,15 +13,13 @@ class TwitterAuthUserProfile(models.Model):
     
     def __str__(self):
         return '%s\'s profile' % self.user
+        
     #Let's make this an abstract class    
     class Meta(object):
         abstract = True
-#    class Meta(object):
-#        app_label       = 'twitter_auth'
-#        verbose_name    = 'profile'
-#        verbose_name_plural = 'profiles'
+
 #def create_user_profile(sender, instance, created, **kwargs):
 #	if created:
-#		profile, created = TwitterUserProfile.objects.get_or_create(user=instance)
+#		profile, created = TwitterAuthUserProfile.objects.get_or_create(user=instance)
 
 #post_save.connect(create_user_profile, sender=User)

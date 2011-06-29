@@ -127,30 +127,34 @@ def get_or_create_user(twitter_user, create_if_not_found = True):
     user and return it, otherwise return None
     """
     mtu = None
+    # If we've just created the user, no need to update the user
+    # Flag for that
+    update = True
     try:
         mtu = MapTwitterToUser.objects.get(twitter_id=twitter_user.id)
     except MapTwitterToUser.DoesNotExist:
         if not create_if_not_found:
             return None
         # If we want to import this user into the system, do it here and return it
+        #u = User.objects.create_user(twitter_user.screen_name)
+        #u.save()
         u = User.objects.create_user(twitter_user.screen_name,
                                      '%s@example.com' % twitter_user.screen_name,
-                                     User.objects.make_random_password(length=12))
-        u.save()
+                                     User.objects.make_random_password(length=12))        
         mtu = MapTwitterToUser()
         mtu.twitter_id = twitter_user.id
         mtu.user = u
         mtu.save()
+        update = False
+
 
     user = User.objects.get(pk=mtu.user.id)
     user_profle = user.get_profile()
     
-    # Let's update the user object with any new info.
-    # This would not be needed if Twitter disallowed username changes.
-    user.first_name = twitter_user.name
-    user.username = twitter_user.screen_name
-    user.email ='%s@example.com' % twitter_user.screen_name
-    user.save()
+    if update is True:
+        user.first_name = twitter_user.name
+        user.username = twitter_user.screen_name
+        user.save()
 
     # Get the user profile and update it
     userprofile = user.get_profile()

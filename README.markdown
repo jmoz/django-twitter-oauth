@@ -31,8 +31,9 @@ I've added a TwitterAuthUserProfile.py file that you can extend in your applicat
 Now you *should* be good to go!
 
 ## API Usage
-from twitter_auth.util.utils import *
 
+
+    from twitter_auth.util.utils import *
 
 Then with an authenticated user in the request object:
 

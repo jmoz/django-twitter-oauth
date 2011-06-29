@@ -22,21 +22,20 @@ TWITTER_AUTH_AUTHENTICATED - the named url pattern of where you are sent when yo
 
 I've added a TwitterAuthUserProfile.py file that you can extend in your application to add supplemental user profile fields. If you don't require anything extra, you can extend TwitterAuthUserProfile and leave it blank. If you are specifying a Meta inner class, set abstract = False. At the bottom of your app specific profile class, put:
 
-  def create_user_profile(sender, instance, created, **kwargs):
-  	if created:
-  		profile, created = <YOUR_APP_PROFILE>.objects.get_or_create(user=instance)
+    def create_user_profile(sender, instance, created, **kwargs):
+    	if created:
+    		profile, created = <YOUR_APP_PROFILE>.objects.get_or_create(user=instance)
 
-  post_save.connect(create_user_profile, sender=User)
+    post_save.connect(create_user_profile, sender=User)
 
-Now you should be good to go!
+Now you *should* be good to go!
 
 ## API Usage
 from twitter_auth.util.utils import *
 
 
 Then with an authenticated user in the request object:
-    
 
     #This gets the authenticated twitter.Api object
-    api = get_twitter_api(request)
+    api = get_twitter_api_from_request(request)
     users = api.GetFriends()

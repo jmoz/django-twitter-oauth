@@ -3,7 +3,7 @@
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from twitter_auth.models.MapTwitterToUser import MapTwitterToUser
+from twitter_auth.models import MapTwitterToUser
 from twitter_auth.util.utils import get_or_create_user
 import twitter
 
@@ -23,6 +23,7 @@ class TwitterBackend:
         Authenticates the token by requesting user information from twitter
         """
         if oauth_access_token is None:
+            print '1'
             return None
 
         api = twitter.Api(consumer_key=CONSUMER_KEY, 
@@ -32,9 +33,11 @@ class TwitterBackend:
         try:
             twitter_user = api.VerifyCredentials()
             if twitter_user is None:
+                print '2'                
                 return None
         except:
             # If we cannot get the user information, user cannot be authenticated
+            print '3'
             return None
         
         #TODO - as a possible optimization, return the user and profile to save on a sql call

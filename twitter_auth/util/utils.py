@@ -17,7 +17,7 @@ except ImportError:
 
 
 from django.conf import settings
-from twitter_auth.models.MapTwitterToUser import MapTwitterToUser
+from twitter_auth.models import MapTwitterToUser
 from django.contrib.auth.models import User
 
 

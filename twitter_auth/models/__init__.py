@@ -1,2 +1,0 @@
-from MapTwitterToUser import MapTwitterToUser
-from TwitterAuthUserProfile import TwitterAuthUserProfile

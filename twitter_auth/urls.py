@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from twitter_auth.views.views import *
+from twitter_auth.views import *
 
 urlpatterns = patterns('twitter_app.views',
    url(r'^$',

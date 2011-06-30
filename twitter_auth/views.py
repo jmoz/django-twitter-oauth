@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 
-from twitter_auth.util.utils import *
+from twitter_auth.util.twitterutils import *
 
 from django.conf import settings
 

@@ -4,7 +4,7 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from twitter_auth.models import MapTwitterToUser
-from twitter_auth.util.utils import get_or_create_user
+from twitter_auth.util.twitterutils import get_or_create_user
 import twitter
 
 

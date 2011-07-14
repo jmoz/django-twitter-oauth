@@ -113,11 +113,12 @@ def get_twitter_user_from_twitter(twitter_user_name, api):
     """
     Returns the twitter.User user associated with the twitter_user_name.
     """
-    twitter_user = api.GetUser(twitter_user_name)
-    if twitter_user is None:
-        return None
+    try:
+        return api.GetUser(twitter_user_name)
+    except twitter.TwitterError:
+        pass
     
-    return twitter_user
+    return None
         
         
 def get_or_create_user(twitter_user, create_if_not_found = True):

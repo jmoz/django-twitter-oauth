@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+try:
+    #if using south, like i am, we need to map some rules
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([], ["^twitter_auth\.models\.PositiveBigIntegerField"])
+except:
+        pass    
 
 # Based on http://www.numlock.ch/news/it/django-custom-model-field-for-an-unsigned-bigint-data-type/
 class PositiveBigIntegerField(models.PositiveIntegerField):
